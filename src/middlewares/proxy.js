@@ -14,7 +14,7 @@ exports.setupProxy = (app) => {
 				for (let name in ms) {
 					const path = `/api/${version}/${name}`;
 					const target = `http://${hostName}:${ms[name].port}${path}`;
-					app.use(path, (req, res, next) => {
+					app.use(path,
 						createProxyMiddleware({
 							target: target,
 							changeOrigin: true,
@@ -36,9 +36,8 @@ exports.setupProxy = (app) => {
 									console.error("error", err);
 								},
 							},
-							logger: req.logger,
-						});
-					});
+							logger: console,
+						}));
 				}
 			});
 		}

@@ -2,7 +2,7 @@ http:
   - host: "localhost"
     api:
       v3:
-        - views:
-            port: 9011
-        - personalization:
-            port: 9012
+        - service1:
+            port: 8052
+        - service2:
+            port: 9001
