@@ -63,13 +63,3 @@ services:
       INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_PASSWORD}
     volumes:
       - ${DATA_PATH}/influxdb:/var/lib/influxdb
-  # k6:
-  #   container_name: k6
-  #   image: grafana/k6:latest
-  #   volumes:
-  #     - ./test/perforamance:/scripts
-
-  # awscli:
-  #   image: amazon/aws-cli:latest
-  #   volumes:
-  #     - ${CONF_PATH}/.aws:/root/.aws
