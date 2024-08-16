@@ -1,6 +1,6 @@
 services:
-  express-gateway:
-    container_name: express-api-gateway
+  api-gateway:
+    container_name: api-gateway
     build:
       context: .
     ports:
@@ -15,7 +15,7 @@ services:
     ports:
       - "${NFINX_PORT}:80"
     depends_on:
-      - express-gateway
+      - api-gateway
     volumes:
       - ${CONF_PATH}/nginx.conf:/etc/nginx/nginx.conf
   redis:

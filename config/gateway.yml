@@ -1,8 +1,8 @@
 http:
-  - host: "localhost"
+  - host: "api-gateway"
     api:
       v3:
         - service1:
-            port: 8052
-        - service2:
             port: 9001
+        - service2:
+            port: 9002

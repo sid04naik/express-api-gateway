@@ -9,8 +9,8 @@ const Registry = client.Registry;
 const register = new Registry();
 
 const registerMiddlewares = (app) => {
-	// Dynamically register all middlewares
-	Object.values(middlewares).forEach((middleware) => app.use(middleware));
+  // Dynamically register all middlewares
+  Object.values(middlewares).forEach((middleware) => app.use(middleware));
 };
 
 registerMiddlewares(app);
@@ -19,14 +19,14 @@ setupProxy(app);
 
 collectDefaultMetrics({ register, timeout: 5000 });
 app.get("/metrics", async (req, res) => {
-	try {
-		res.setHeader("Content-Type", register.contentType);
-		res.set("Content-Type", client.register.contentType);
-		const metrics = await register.metrics();
-		res.end(metrics);
-	} catch (err) {
-		res.status(500).end(err);
-	}
+  try {
+    res.setHeader("Content-Type", register.contentType);
+    res.set("Content-Type", client.register.contentType);
+    const metrics = await register.metrics();
+    res.end(metrics);
+  } catch (err) {
+    res.status(500).end(err);
+  }
 });
 
 module.exports = app;
