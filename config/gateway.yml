@@ -1,0 +1,8 @@
+http:
+  - host: "api-gateway"
+    api:
+      v3:
+        - service1:
+            port: 9001
+        - service2:
+            port: 9002
