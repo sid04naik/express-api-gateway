@@ -4,7 +4,7 @@ services:
     build:
       context: .
     ports:
-      - "${GATEWAY_PORT}:8002"
+      - "${PORT}:8002"
     volumes:
       - .:/usr/src/app
     environment:

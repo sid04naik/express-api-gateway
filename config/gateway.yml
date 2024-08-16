@@ -1,0 +1,8 @@
+http:
+  - host: "localhost"
+    api:
+      v3:
+        - views:
+            port: 9011
+        - personalization:
+            port: 9012

@@ -77,4 +77,51 @@ module.exports = {
 		delayAfter: 50, // allow 50 requests per 15 minutes, then start slowing down responses
 		delayMs: (hits) => hits * 500, // slow down subsequent responses by 500ms per request
 	}),
+	Logger: (req, res, next) => {
+		req["logger"] = {
+			info: (message) =>
+				logger.info(
+					JSON.stringify({
+						type: "info",
+						uuid: req.uuid,
+						env: "local",
+						method: req.method,
+						status: res.statusCode,
+						url: req.path,
+						length: res.get("content-length"),
+						ts: Date.now(),
+						message: message.trim(),
+					}),
+				),
+			warn: (message) =>
+				logger.warn(
+					JSON.stringify({
+						type: "warn",
+						uuid: req.uuid,
+						env: "local",
+						method: req.method,
+						status: res.statusCode,
+						url: req.path,
+						length: res.get("content-length"),
+						ts: Date.now(),
+						message: message.trim(),
+					}),
+				),
+			error: (message) =>
+				logger.error(
+					JSON.stringify({
+						type: "error",
+						uuid: req.uuid,
+						env: "local",
+						method: req.method,
+						status: res.statusCode,
+						url: req.path,
+						length: res.get("content-length"),
+						ts: Date.now(),
+						message: message.trim(),
+					}),
+				),
+		};
+		next();
+	},
 };

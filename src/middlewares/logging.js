@@ -30,25 +30,12 @@ morgan.token("request", (req) => {
 
 const morganFormat = ":request :method :url :status :response-time ms";
 
-// const { createLogger, format, transports } = require('winston');
-// const { combine, timestamp, json, colorize } = format;
-
 exports.setupLogging = (app) => {
 	// Setup Morgan to log HTTP requests using Winston
 	app.use(
 		morgan(morganFormat, {
 			stream: {
 				write: (message) => logger.info(message.trim()),
-				// write: (message) => {
-				//   const logObject = {
-				//     request: message.split(" ")[0],
-				//     method: message.split(" ")[1],
-				//     url: message.split(" ")[2],
-				//     status: message.split(" ")[3],
-				//     responseTime: message.split(" ")[4],
-				//   };
-				//   logger.info(logObject);
-				// },
 			},
 		}),
 	);

@@ -18,8 +18,6 @@ registerMiddlewares(app);
 setupProxy(app);
 
 collectDefaultMetrics({ register, timeout: 5000 });
-// collectDefaultMetrics({register: client.register})
-
 app.get("/metrics", async (req, res) => {
 	try {
 		res.setHeader("Content-Type", register.contentType);
