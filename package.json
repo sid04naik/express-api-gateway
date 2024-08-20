@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "NODE_ENV=dev nodemon index.js",
-    "nginx:conf": "node ./bin/nginxConf.js",
+    "nginx:routes": "node ./bin/nginx-routes.js",
+    "nginx:gateway": "node ./bin/nginx-gateway.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",

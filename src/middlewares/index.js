@@ -26,7 +26,7 @@ module.exports = {
     cb(null, options);
   }),
   Request: (req, res, next) => {
-    const postBody = Object.assign({}, req.body);
+    const postBody = {...req.body};
     if (postBody) {
       delete postBody.token;
       delete postBody.password;

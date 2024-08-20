@@ -1,8 +1,24 @@
 http:
-  - host: "api-gateway"
+  - host: "127.0.0.1"
     api:
       v3:
-        - service1:
+        - notebook:
+            port: 8052
+        - acl:
             port: 9001
-        - service2:
+        - static:
             port: 9002
+        - async:
+            port: 9003
+        - views:
+            port: 9011
+        - personalization:
+            port: 9012
+        - teams:
+            port: 9013
+        - notes:
+            port: 9014
+        - datatemplates:
+            port: 9015
+        - propertydata:
+            port: 9016

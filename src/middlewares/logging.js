@@ -4,7 +4,7 @@ const useragent = require("useragent");
 
 morgan.token("request", (req) => {
   const ua = useragent.parse(req.headers["user-agent"]);
-  let postBody = Object.assign({}, req.body);
+  let postBody = {...req.body};
   if (postBody) {
     delete postBody.token;
     delete postBody.password;
