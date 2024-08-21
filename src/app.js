@@ -26,7 +26,12 @@ app.get("/metrics", async (req, res) => {
 });
 
 app.get('/ip', (req, res) => {
-  res.send({ "ip": req.ip });
+  let ip = req.ip;
+  const ipv6Prefix = "::ffff:";
+  if (ip.startsWith(ipv6Prefix)) {
+    ip = ip.substring(ipv6Prefix.length);
+  }
+  res.send({ "ip": ip });
 });
 
 module.exports = app;
