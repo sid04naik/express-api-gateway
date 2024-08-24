@@ -1,3 +1,4 @@
+require("dotenv").config();
 const yaml = require("js-yaml");
 const fs = require("fs");
 const path = require("path");
@@ -6,6 +7,7 @@ const gatewayPath = path.resolve(__dirname, "../config/gateway.yml");
 const filePath = path.join(__dirname, "../config/nginx.conf");
 const apiEndpoints = yaml.load(fs.readFileSync(gatewayPath, "utf8"));
 const http = apiEndpoints["http"];
+const PORT = process.env.NGINX_PORT || 80;
 // Define the NGINX configuration as a string
 let nginxConfig = `
 worker_processes 1;
@@ -22,16 +24,13 @@ http {
 `;
 http.forEach((endpoints) => {
   const hostName = endpoints.host;
-  const api = endpoints.api;
+  const gatewayPort = process.env.PORT || 8002;
   nginxConfig += `
     server {
-        listen 80;
+        listen ${PORT};
         server_name ${hostName};`;
-  for (let version in api) {
-    api[version].forEach((ms) => {
-      for (let name in ms) {
-        const path = `/api/${version}/${name}`;
-        const target = `http://${hostName}:${ms[name].port}`;
+        const path = `/`;
+        const target = `http://${hostName}:${gatewayPort}`;
         nginxConfig += `
         location ${path} {
             proxy_pass ${target};
@@ -40,9 +39,6 @@ http.forEach((endpoints) => {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
         }`;
-      }
-    });
-  }
   nginxConfig += `
       }
       include servers/*;

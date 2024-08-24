@@ -1,8 +1,8 @@
 http:
-  - host: "api-gateway"
+  - host: "host.docker.internal"
     api:
-      v3:
+      v1:
         - service1:
-            port: 9001
+            port: 9013
         - service2:
-            port: 9002
+            port: 9014
