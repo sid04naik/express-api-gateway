@@ -1,12 +1,13 @@
+require("dotenv").config();
 const yaml = require("js-yaml");
 const fs = require("fs");
 const path = require("path");
-
 const gatewayPath = path.resolve(__dirname, "../config/gateway.yml");
 const filePath = path.join(__dirname, "../config/nginx.conf");
 const apiEndpoints = yaml.load(fs.readFileSync(gatewayPath, "utf8"));
 const http = apiEndpoints["http"];
 // Define the NGINX configuration as a string
+const PORT = process.env.NGINX_PORT || 80;
 let nginxConfig = `
 worker_processes 1;
 
@@ -25,7 +26,7 @@ http.forEach((endpoints) => {
   const api = endpoints.api;
   nginxConfig += `
     server {
-        listen 80;
+        listen ${PORT};
         server_name ${hostName};`;
   for (let version in api) {
     api[version].forEach((ms) => {

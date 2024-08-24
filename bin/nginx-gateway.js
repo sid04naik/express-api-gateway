@@ -7,6 +7,7 @@ const gatewayPath = path.resolve(__dirname, "../config/gateway.yml");
 const filePath = path.join(__dirname, "../config/nginx.conf");
 const apiEndpoints = yaml.load(fs.readFileSync(gatewayPath, "utf8"));
 const http = apiEndpoints["http"];
+const PORT = process.env.NGINX_PORT || 80;
 // Define the NGINX configuration as a string
 let nginxConfig = `
 worker_processes 1;
@@ -26,7 +27,7 @@ http.forEach((endpoints) => {
   const gatewayPort = process.env.PORT || 8002;
   nginxConfig += `
     server {
-        listen 80;
+        listen ${PORT};
         server_name ${hostName};`;
         const path = `/`;
         const target = `http://${hostName}:${gatewayPort}`;
