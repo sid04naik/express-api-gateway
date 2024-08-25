@@ -30,6 +30,8 @@ services:
       - "${REDIS_PORT}:6379"
     volumes:
       - ${DATA_PATH}/redis:/data
+    networks:
+      - bridge
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
@@ -79,3 +81,6 @@ services:
 networks:
   bridge:
     driver: bridge
+    attachable: true
+  default:
+    name: none
