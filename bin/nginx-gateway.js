@@ -26,18 +26,30 @@ http.forEach((endpoints) => {
   const hostName = endpoints.host;
   const gatewayPort = process.env.PORT || 8002;
   nginxConfig += `
+    upstream backend {
+      server ${hostName}:${gatewayPort};
+    }
+
     server {
         listen ${PORT};
         server_name ${hostName};`;
         const path = `/`;
-        const target = `http://${hostName}:${gatewayPort}`;
+        const target = `http://backend`;
         nginxConfig += `
         location ${path} {
-            proxy_pass ${target};
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_pass ${target};
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          if ($request_method = OPTIONS) {
+            add_header Access-Control-Allow-Origin *;
+            add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS, PATCH, PUT, DELETE';
+            add_header Access-Control-Allow-Headers 'Authorization, Content-Type';
+            add_header Content-Length 0;
+            add_header Content-Type text/plain;
+            return 204;
+          }
         }`;
   nginxConfig += `
       }
