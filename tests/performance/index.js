@@ -1,12 +1,11 @@
 import http from "k6/http";
 import { check, group, sleep } from "k6";
-import { faker } from 'https://esm.sh/@faker-js/faker@v8.4.0';
+import { faker } from "https://esm.sh/@faker-js/faker@v8.4.0";
 
 const configuration = {
   host: "http://localhost",
-  token: "token"
-}
-
+  token: "token",
+};
 
 export const options = {
   vus: 2,
@@ -16,8 +15,6 @@ export const options = {
     "http_req_duration{group:::GET}": ["p(95) < 200"],
   },
 };
-
-
 
 export default function () {
   group("GET", function () {

@@ -1,4 +1,5 @@
 const { createLogger, format, transports } = require("winston");
+const LokiTransport = require("winston-loki");
 const { combine, timestamp, json, colorize } = format;
 
 // Custom format for console logging with colors
@@ -18,10 +19,19 @@ const consoleTransport = new transports.Console({
   level: "info", // Log levels (error, warn, info)
 });
 
+const lokiTransport = new LokiTransport({
+  host: `http://${process.env.HOST}:${process.env.LOKI_PORT}`,
+  labels: { job: "api-gateway", env: process.env.ENV },
+  json: true,
+  format: format.combine(format.colorize(), customFormat),
+  gracefulShutdown: true, // Ensures logs are flushed before exit
+  onConnectionError: (err) => console.error("Loki Connection Error:", err), // Log connection errors
+});
+
 const logger = createLogger({
   level: "info",
   format: combine(colorize(), timestamp(), json()),
-  transports: [consoleTransport],
+  transports: [consoleTransport, lokiTransport],
   exceptionHandlers: [new transports.Console({ format: customFormat })],
   rejectionHandlers: [new transports.Console({ format: customFormat })],
 });

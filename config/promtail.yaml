@@ -11,15 +11,15 @@ clients:
 scrape_configs:
   - job_name: system
     static_configs:
-    - targets:
-        - localhost
-      labels:
-        job: varlogs
-        __path__: /var/log/**/*log
+      - targets:
+          - localhost
+        labels:
+          job: all
+          __path__: /var/log/**/*log
   - job_name: nginx
     static_configs:
       - targets:
           - localhost
         labels:
           job: nginx
-          __path__: /var/log/logs/nginx/*log
+          __path__: /var/log/api-gateway/nginx/*log
