@@ -9,7 +9,7 @@ const Registry = client.Registry;
 const register = new Registry();
 
 // Trust the reverse proxy
-app.set('trust proxy', "127.0.0.1");
+app.set("trust proxy", "127.0.0.1");
 Object.values(middlewares).forEach((middleware) => app.use(middleware));
 // Proxy Setup
 setupProxy(app);
@@ -25,13 +25,16 @@ app.get("/metrics", async (req, res) => {
   }
 });
 
-app.get('/ip', (req, res) => {
+app.get("/ip", (req, res) => {
   let ip = req.ip;
   const ipv6Prefix = "::ffff:";
   if (ip.startsWith(ipv6Prefix)) {
     ip = ip.substring(ipv6Prefix.length);
   }
-  res.send({ "ip": ip });
+  res.send({ ip: ip });
+});
+app.get("/", (req, res) => {
+  res.send("Welcome to Express API Gateway");
 });
 
 module.exports = app;
