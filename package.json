@@ -20,8 +20,8 @@
     "test:watch": "jest -i --watchAll",
     "coverage": "jest -i --coverage",
     "coverage:coveralls": "jest -i --coverage --coverageReporters=text-lcov | coveralls",
-    "perf:dashboard": "k6 run --out influxdb=http://localhost:8086/k6 tests/performance/index.js",
-    "perf": "k6 run tests/performance/index.js"
+    "perf:dashboard": "k6 run --out influxdb=http://localhost:8086/K6 tests/performance/index.js",
+    "perf": "K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_OPEN=true k6 run tests/performance/index.js"
   },
   "keywords": [
     "express",

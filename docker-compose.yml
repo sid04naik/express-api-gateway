@@ -21,6 +21,7 @@ services:
       - server
     volumes:
       - ${CONF_PATH}/nginx.conf:/etc/nginx/nginx.conf
+      - /var/log/logs/nginx:/var/log/nginx
     networks:
       - bridge
   redis:
@@ -46,13 +47,29 @@ services:
   loki:
     container_name: loki
     image: grafana/loki:latest
-    user: "root"
+    user: root
     ports:
       - "${LOKI_PORT}:3100"
     volumes:
       - ${CONF_PATH}/loki.yaml:/etc/loki/local-config.yaml
-      - ${DATA_PATH}/loki:/loki
+      - ${DATA_PATH}/loki:/tmp
     command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - bridge
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:latest
+    # user: root
+    ports:
+      - "${PRMOTAIL_PORT}:9080"
+    volumes:
+      - ${CONF_PATH}/promtail.yaml:/etc/promtail/config.yaml
+      - ${DATA_PATH}/promtail/tmp:/tmp
+      - /var/log:/var/log
+    depends_on:
+      - loki
+    command: -config.file=/etc/promtail/config.yaml
+    restart: unless-stopped
     networks:
       - bridge
   prometheus:

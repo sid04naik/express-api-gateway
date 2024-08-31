@@ -33,5 +33,8 @@ app.get('/ip', (req, res) => {
   }
   res.send({ "ip": ip });
 });
+app.get('/', (req, res) => {
+  res.send("Welcome to Express API Gateway");
+});
 
 module.exports = app;
